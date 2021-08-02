@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="Medical_Center" id="Project_1bd7" database="MySql" >
+	<comment><![CDATA[Medical center Schema]]></comment>
+	<schema name="medical_center" >
+		<table name="conditions" >
+			<column name="id" type="int" jt="4" mandatory="y" />
+			<column name="medical_condition" type="int" jt="4" mandatory="y" />
+			<column name="medication_id" type="int" length="1000" jt="4" />
+			<index name="pk_conditions_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_conditions_medication_id" unique="UNIQUE_KEY" >
+				<column name="medication_id" />
+			</index>
+			<fk name="patient_condition_id" to_schema="medical_center" to_table="patients" >
+				<fk_column name="id" pk="condition_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="doctor_patient" >
+			<column name="id" type="int" jt="4" mandatory="y" />
+			<column name="doctor_id" type="int" jt="4" />
+			<column name="patient_id" type="int" jt="4" />
+			<column name="primary? " type="boolean" jt="16" />
+			<index name="pk_doctor_patient_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_doctor_patient_doctor_id" unique="UNIQUE_KEY" >
+				<column name="doctor_id" />
+			</index>
+			<index name="unq_doctor_patient_patient_id" unique="UNIQUE_KEY" >
+				<column name="patient_id" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="doctors" >
+			<column name="id" type="int" jt="4" mandatory="y" />
+			<column name="role" type="varchar" length="50" jt="12" mandatory="y" />
+			<column name="shift" type="varchar" length="15" jt="12" />
+			<column name="vacation_block" type="int" jt="4" >
+				<comment><![CDATA[1-13 period in the year.]]></comment>
+			</column>
+			<column name="contact phone" type="varchar" length="15" jt="12" />
+			<column name="eid" type="varchar" length="1000" jt="12" />
+			<index name="pk_doctors_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_doctors_doctor_patient" to_schema="medical_center" to_table="doctor_patient" >
+				<fk_column name="id" pk="doctor_id" />
+			</fk>
+			<fk name="fk_doctors_medical_center" to_schema="medical_center" to_table="medical_center" >
+				<fk_column name="eid" pk="employee_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="medical_center" >
+			<column name="id" type="varchar" jt="12" spec="functional" mandatory="y" />
+			<column name="address" type="varchar" length="100" jt="12" />
+			<column name="phone_number" type="varchar" length="10" jt="12" />
+			<column name="employee_id" type="varchar" length="1000" jt="12" />
+			<index name="id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_medical_center_employee_id" unique="UNIQUE_KEY" >
+				<column name="employee_id" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="medication" >
+			<column name="id" type="int" jt="4" mandatory="y" />
+			<column name="medication_name" type="varchar" length="100" jt="12" />
+			<column name="dose" type="int" jt="4" />
+			<column name="cost" type="int" jt="4" />
+			<index name="pk_medication_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_medication_conditions" to_schema="medical_center" to_table="conditions" >
+				<fk_column name="id" pk="medication_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="patients" >
+			<column name="id" type="int" jt="4" mandatory="y" />
+			<column name="name" type="varchar" length="100" jt="12" />
+			<column name="phone" type="varchar" length="15" jt="12" />
+			<column name="condition_id" type="int" jt="4" />
+			<index name="pk_patients_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_patients_condition_id" unique="UNIQUE_KEY" >
+				<column name="condition_id" />
+			</index>
+			<fk name="fk_patients_doctor_patient" to_schema="medical_center" to_table="doctor_patient" >
+				<fk_column name="id" pk="patient_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+	</schema>
+	<connector name="MyDb" database="MySql" host="localhost" port="3306" user="root" />
+	<layout name="Default Layout" id="Layout_a10" show_relation="columns" >
+		<entity schema="medical_center" name="conditions" color="C1D8EE" x="496" y="96" />
+		<entity schema="medical_center" name="doctor_patient" color="C1D8EE" x="368" y="256" />
+		<entity schema="medical_center" name="doctors" color="C1D8EE" x="128" y="256" />
+		<entity schema="medical_center" name="medical_center" color="C1D8EE" x="48" y="48" />
+		<entity schema="medical_center" name="medication" color="C1D8EE" x="640" y="240" />
+		<entity schema="medical_center" name="patients" color="C1D8EE" x="272" y="80" />
+	</layout>
+</project>

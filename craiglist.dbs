@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="craigslist" id="Project_8a3" database="MySql" >
+	<schema name="craigslist" >
+		<table name="categories" >
+			<column name="id" type="int" jt="4" mandatory="y" />
+			<column name="title" type="char" length="100" jt="1" mandatory="y" />
+			<index name="pk_categories_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="category_post_id" to_schema="craigslist" to_table="posts" >
+				<fk_column name="id" pk="category_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="locations" >
+			<column name="id" type="int" jt="4" mandatory="y" />
+			<column name="state" type="varchar" length="20" jt="12" />
+			<column name="country" type="char" length="30" jt="1" />
+			<index name="pk_locations_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="user_location_id" to_schema="craigslist" to_table="users" >
+				<fk_column name="id" pk="location_id" />
+			</fk>
+			<fk name="post_location_id" to_schema="craigslist" to_table="posts" >
+				<fk_column name="id" pk="location_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="posts" >
+			<column name="id" type="int" jt="4" mandatory="y" />
+			<column name="user_id" type="int" jt="4" />
+			<column name="location_id" type="int" jt="4" />
+			<column name="category_id" type="int" jt="4" />
+			<column name="title" type="varchar" length="50" jt="12" mandatory="y" />
+			<column name="text_body" type="varchar" length="500" jt="12" mandatory="y" />
+			<column name="contact_info" type="varchar" length="50" jt="12" />
+			<index name="pk_posts_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_posts_location_id" unique="UNIQUE_KEY" >
+				<column name="location_id" />
+			</index>
+			<index name="unq_posts_category_id" unique="UNIQUE_KEY" >
+				<column name="category_id" />
+			</index>
+			<index name="unq_posts_user_id" unique="UNIQUE_KEY" >
+				<column name="user_id" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="users" >
+			<column name="id" type="int" jt="4" mandatory="y" />
+			<column name="username" type="varchar" length="30" jt="12" mandatory="y" />
+			<column name="password" type="varchar" length="20" jt="12" mandatory="y" />
+			<column name="location_id" type="int" jt="4" />
+			<index name="pk_users_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_users_location_id" unique="UNIQUE_KEY" >
+				<column name="location_id" />
+			</index>
+			<fk name="users_post_id" to_schema="craigslist" to_table="posts" >
+				<fk_column name="id" pk="user_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+	</schema>
+	<layout name="Default Layout" id="Layout_b7d" show_relation="columns" >
+		<entity schema="craigslist" name="categories" color="C1D8EE" x="352" y="112" />
+		<entity schema="craigslist" name="locations" color="C1D8EE" x="48" y="48" />
+		<entity schema="craigslist" name="posts" color="C1D8EE" x="192" y="48" />
+		<entity schema="craigslist" name="users" color="C1D8EE" x="176" y="240" />
+	</layout>
+</project>

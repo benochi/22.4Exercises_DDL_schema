@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="soccer" id="Project_1e1d" database="MySql" >
+	<schema name="soccer" >
+		<table name="coaches" >
+			<column name="id" type="int" jt="4" mandatory="y" />
+			<column name="name" type="varchar" length="100" jt="12" />
+			<column name="team_id" type="int" jt="4" />
+			<index name="pk_coaches_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_coaches_team_id" unique="UNIQUE_KEY" >
+				<column name="team_id" />
+			</index>
+			<fk name="fk_coaches_matches_home" to_schema="soccer" to_table="matches" >
+				<fk_column name="id" pk="home_coach_id" />
+			</fk>
+			<fk name="fk_coaches_matches_away" to_schema="soccer" to_table="matches" >
+				<fk_column name="id" pk="away_coach_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="goals" prior="referees_0" >
+			<column name="id" type="int" jt="4" mandatory="y" />
+			<column name="player_id" type="int" jt="4" />
+			<column name="match_id" type="int" jt="4" />
+			<column name="team_id" type="int" jt="4" />
+			<index name="pk_teams_id_1" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_goals_player_id" unique="UNIQUE_KEY" >
+				<column name="player_id" />
+			</index>
+			<index name="unq_goals_match_id" unique="UNIQUE_KEY" >
+				<column name="match_id" />
+			</index>
+			<index name="unq_goals_team_id" unique="UNIQUE_KEY" >
+				<column name="team_id" />
+			</index>
+		</table>
+		<table name="lineups" prior="seasons_0" >
+			<column name="id" type="int" jt="4" mandatory="y" />
+			<column name="player_id" type="int" jt="4" />
+			<column name="match_id" type="int" jt="4" />
+			<column name="team_id" type="int" jt="4" />
+			<index name="pk_seasons_id_0" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_lineups_match_id" unique="UNIQUE_KEY" >
+				<column name="match_id" />
+			</index>
+			<index name="unq_lineups_team_id" unique="UNIQUE_KEY" >
+				<column name="team_id" />
+			</index>
+			<index name="unq_lineups_player_id" unique="UNIQUE_KEY" >
+				<column name="player_id" />
+			</index>
+		</table>
+		<table name="matches" prior="referees_2" >
+			<column name="id" type="int" jt="4" mandatory="y" />
+			<column name="home_team_id" type="int" jt="4" />
+			<column name="away_team_id" type="int" jt="4" />
+			<column name="location" type="varchar" length="100" jt="12" />
+			<column name="game_date_time" type="datetime" jt="93" />
+			<column name="head_referee_id" type="int" jt="4" />
+			<column name="alternate_referee_id" type="int" jt="4" />
+			<column name="season_id" type="int" jt="4" />
+			<column name="home_coach_id" type="int" jt="4" />
+			<column name="away_coach_id" type="int" jt="4" />
+			<index name="pk_teams_id_3" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_matches_head_referee_id" unique="UNIQUE_KEY" >
+				<column name="head_referee_id" />
+			</index>
+			<index name="unq_matches_alternate_referee_id" unique="UNIQUE_KEY" >
+				<column name="alternate_referee_id" />
+			</index>
+			<index name="unq_matches_home_coach_id" unique="UNIQUE_KEY" >
+				<column name="home_coach_id" />
+			</index>
+			<index name="unq_matches_away_coach_id" unique="UNIQUE_KEY" >
+				<column name="away_coach_id" />
+			</index>
+			<index name="unq_matches_season_id" unique="UNIQUE_KEY" >
+				<column name="season_id" />
+			</index>
+			<fk name="fk_matches_results" to_schema="soccer" to_table="results" >
+				<fk_column name="id" pk="match_id" />
+			</fk>
+			<fk name="fk_matches_lineups" to_schema="soccer" to_table="lineups" >
+				<fk_column name="id" pk="match_id" />
+			</fk>
+			<fk name="fk_matches_goals" to_schema="soccer" to_table="goals" >
+				<fk_column name="id" pk="match_id" />
+			</fk>
+			<fk name="fk_matches_players" to_schema="soccer" to_table="players" >
+				<fk_column name="id" pk="match_id" />
+			</fk>
+		</table>
+		<table name="players" prior="referees_1" >
+			<column name="id" type="int" jt="4" mandatory="y" />
+			<column name="team_id" type="int" jt="4" />
+			<column name="match_id" type="int" jt="4" />
+			<column name="name" type="varchar" length="100" jt="12" />
+			<index name="pk_teams_id_2" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_players_team_id" unique="UNIQUE_KEY" >
+				<column name="team_id" />
+			</index>
+			<index name="unq_players_match_id" unique="UNIQUE_KEY" >
+				<column name="match_id" />
+			</index>
+			<fk name="fk_players_lineups" to_schema="soccer" to_table="lineups" >
+				<fk_column name="id" pk="player_id" />
+			</fk>
+			<fk name="fk_players_goals" to_schema="soccer" to_table="goals" >
+				<fk_column name="id" pk="player_id" />
+			</fk>
+		</table>
+		<table name="referees" prior="teams_0" >
+			<column name="id" type="int" jt="4" mandatory="y" />
+			<column name="name" type="varchar" length="100" jt="12" />
+			<index name="pk_teams_id_0" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_referees_matches" to_schema="soccer" to_table="matches" >
+				<fk_column name="id" pk="head_referee_id" />
+			</fk>
+			<fk name="fk_referees_alt" to_schema="soccer" to_table="matches" >
+				<fk_column name="id" pk="alternate_referee_id" />
+			</fk>
+		</table>
+		<table name="results" prior="tbl" >
+			<column name="id" type="int" jt="4" mandatory="y" />
+			<column name="team_id" type="int" jt="4" />
+			<column name="match_id" type="int" jt="4" />
+			<column name="result" type="varchar" length="1" jt="12" />
+			<index name="pk_results_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_results_match_id" unique="UNIQUE_KEY" >
+				<column name="match_id" />
+			</index>
+			<index name="unq_results_team_id" unique="UNIQUE_KEY" >
+				<column name="team_id" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="seasons" prior="tbl" >
+			<column name="id" type="int" jt="4" mandatory="y" />
+			<column name="name" type="varchar" length="100" jt="12" />
+			<column name="start_date" type="date" jt="91" />
+			<column name="end_date" type="date" jt="91" />
+			<column name="qualifier?" type="boolean" jt="16" />
+			<index name="pk_seasons_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_seasons_matches" to_schema="soccer" to_table="matches" >
+				<fk_column name="id" pk="season_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="teams" >
+			<column name="id" type="int" jt="4" mandatory="y" />
+			<column name="name" type="varchar" length="100" jt="12" mandatory="y" />
+			<column name="city" type="varchar" length="20" jt="12" />
+			<index name="pk_teams_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_teams_lineups" to_schema="soccer" to_table="lineups" >
+				<fk_column name="id" pk="team_id" />
+			</fk>
+			<fk name="fk_teams_goals" to_schema="soccer" to_table="goals" >
+				<fk_column name="id" pk="team_id" />
+			</fk>
+			<fk name="fk_teams_players" to_schema="soccer" to_table="players" >
+				<fk_column name="id" pk="team_id" />
+			</fk>
+			<fk name="fk_teams_coaches" to_schema="soccer" to_table="coaches" >
+				<fk_column name="id" pk="team_id" />
+			</fk>
+			<fk name="fk_teams_results" to_schema="soccer" to_table="results" >
+				<fk_column name="id" pk="team_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+	</schema>
+	<layout name="Default Layout" id="Layout_1de7" show_relation="columns" >
+		<entity schema="soccer" name="coaches" color="C1D8EE" x="608" y="384" />
+		<entity schema="soccer" name="goals" color="B6C139" x="192" y="96" />
+		<entity schema="soccer" name="lineups" color="3986C1" x="656" y="208" />
+		<entity schema="soccer" name="matches" color="9D39C1" x="384" y="304" />
+		<entity schema="soccer" name="players" color="5BC139" x="352" y="80" />
+		<entity schema="soccer" name="referees" color="C13939" x="48" y="224" />
+		<entity schema="soccer" name="results" color="C1D8EE" x="176" y="320" />
+		<entity schema="soccer" name="seasons" color="C1D8EE" x="480" y="112" />
+		<entity schema="soccer" name="teams" color="C1D8EE" x="48" y="48" />
+	</layout>
+</project>
