@@ -9,7 +9,7 @@ CREATE TABLE medical_center
   id SERIAL PRIMARY KEY,
   address TEXT NOT NULL,
   phone_number TEXT NOT NULL,
-  FOREIGN KEY employee_id REFERENCES doctors(eid)
+  FOREIGN KEY (employee_id) REFERENCES doctors(eid)
 );
 
 --INSERT INTO medical_center --
@@ -33,14 +33,14 @@ CREATE TABLE patients
   id SERIAL PRIMARY KEY,
   name TEXT NOT NULL,
   phone TEXT,
-  FOREIGN KEY condition_id REFERENCES conditions(id)
+  FOREIGN KEY (condition_id) REFERENCES conditions(id)
 );
 
 CREATE TABLE doctor_patient
 (
   id SERIAL PRIMARY KEY,
-  FOREIGN KEY doctor_id REFERENCES doctor(id)
-  FOREIGN KEY patient_id REFERENCES patient(id)
+  FOREIGN KEY (doctor_id) REFERENCES doctor(id),
+  FOREIGN KEY (patient_id) REFERENCES patient(id),
   primary? BOOLEAN
 );
 
@@ -48,7 +48,7 @@ CREATE TABLE conditions
 (
   id SERIAL PRIMARY KEY,
   medical_condition TEXT NOT NULL,
-  FOREIGN KEY medication_id REFERENCES medications(id)
+  FOREIGN KEY (medication_id) REFERENCES medications(id)
 );
 
 CREATE TABLE medications
