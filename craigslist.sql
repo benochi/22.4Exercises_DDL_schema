@@ -8,7 +8,7 @@ CREATE TABLE locations
 (
   id SERIAL PRIMARY KEY,
   state VARCHAR(2) NOT NULL,
-  country TEXT NOT NULL,
+  country TEXT NOT NULL
 );
 
 --INSERT INTO locations --
